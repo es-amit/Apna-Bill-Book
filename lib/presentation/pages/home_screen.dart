@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/presentation/bloc/item_bloc.dart';
+import 'package:apna_bill_book/presentation/widgets/bottom_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,30 +17,36 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   int page = 1;
+
   @override
   void initState() {
     super.initState();
+    context.read<ItemBloc>().add(ItemFetchEvent(page: page));
     _scrollController.addListener(_onScroll);
-    context.read<ItemBloc>().add(ItemFetchEvent(page: 1));
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      context.read<ItemBloc>().add(
-            ItemFetchEvent(
-              page: page,
-            ),
-          );
-
-      page++;
+    if (_isBottom && page <= 21) {
+      log(page.toString());
+      context.read<ItemBloc>().add(ItemFetchEvent(page: ++page));
+    } else {
+      page = 1;
     }
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   @override
@@ -49,43 +58,42 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: BlocBuilder<ItemBloc, ItemState>(
         builder: (context, state) {
-          if (state is ItemInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is ItemDisplaySuccess) {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: state.items.length,
-                    itemBuilder: ((context, index) {
-                      final item = state.items[index];
-                      return ItemCard(
-                          item: item,
+          switch (state.status) {
+            case ItemStatus.initial:
+              return const Center(
+                child: Text('get data'),
+              );
+            case ItemStatus.success:
+              final items = state.items;
+              if (items.isEmpty) {
+                return const Center(
+                  child: Text('No Items'),
+                );
+              }
+              return ListView.builder(
+                controller: _scrollController,
+                itemCount:
+                    state.hasReachedMax ? items.length : items.length + 1,
+                itemBuilder: ((context, index) {
+                  return index >= items.length
+                      ? page <= 21
+                          ? const BottomLoader()
+                          : const SizedBox()
+                      : ItemCard(
+                          item: items[index],
                           color: index % 3 == 0
                               ? AppPallete.gradient1
                               : index % 3 == 1
                                   ? AppPallete.gradient2
-                                  : AppPallete.gradient3);
-                    }),
-                  ),
-                ),
-              ],
-            );
-          } else if (state is ItemLoading) {
-            return const Center(
-              child: Text('data is loading...'),
-            );
-          } else if (state is ItemFailure) {
-            return Center(
-              child: Text(state.error),
-            );
+                                  : AppPallete.gradient3,
+                        );
+                }),
+              );
+            case ItemStatus.failure:
+              return const Center(
+                child: Text('failed to fetch posts'),
+              );
           }
-          return const Center(
-            child: Text('Something went wrong'),
-          );
         },
       ),
     );

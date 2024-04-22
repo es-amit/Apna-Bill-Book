@@ -5,7 +5,7 @@ class ItemModel extends Item {
     required super.id,
     required super.name,
     required super.price,
-    // required super.category,
+    required super.category,
   });
 
   Map<String, dynamic> toJson() {
@@ -13,7 +13,7 @@ class ItemModel extends Item {
       'id': id,
       'name': name,
       'mrp': price,
-      // 'productCategory': category,
+      'productCategory': category,
     };
   }
 
@@ -22,7 +22,7 @@ class ItemModel extends Item {
       id: map['id'] as int,
       name: map['name'] as String,
       price: map['mrp'] as int, // Changed from int to double
-      // category: map['productCategory']['name'] as String,
+      category: map['productCategory']['name'] as String,
     );
   }
 }

@@ -3,21 +3,25 @@ import 'package:apna_bill_book/data/repositories/list_repository_impl.dart';
 import 'package:apna_bill_book/domain/usecases/get_all_items.dart';
 import 'package:apna_bill_book/presentation/bloc/item_bloc.dart';
 import 'package:apna_bill_book/presentation/pages/home_screen.dart';
+import 'package:apna_bill_book/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(BlocProvider(
-    create: (_) => ItemBloc(
+  Bloc.observer = const SimpleBlocObserver();
+  runApp(
+    BlocProvider(
+      create: (_) => ItemBloc(
         getAllItems: GetAllItems(
-      ListRepositoryImpl(
-        ListRemoteDataSourceImpl(),
+          ListRepositoryImpl(
+            ListRemoteDataSourceImpl(),
+          ),
+        ),
       ),
-    )),
-    child: const MyApp(),
-  ));
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:apna_bill_book/core/error/exceptions.dart';
 import 'package:apna_bill_book/core/error/failures.dart';
 import 'package:apna_bill_book/data/datasource/list_remote_data_source.dart';
@@ -15,7 +13,6 @@ class ListRepositoryImpl implements ListRepository {
   @override
   Future<Either<Failure, List<Item>>> fetchItems(int page) async {
     try {
-      log('list repo impl');
       final items = await remoteDataSource.fetchItems(page);
       return right(items);
     } on ServerException catch (e) {
