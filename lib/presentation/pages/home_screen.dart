@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/presentation/bloc/item_bloc.dart';
 import 'package:apna_bill_book/presentation/widgets/bottom_loader.dart';
+import 'package:apna_bill_book/presentation/widgets/lottie_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,13 +56,24 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home Screen'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.star),
+            color: Colors.yellowAccent,
+            iconSize: 40.0,
+            tooltip: 'Favourite',
+          ),
+        ],
       ),
       body: BlocBuilder<ItemBloc, ItemState>(
         builder: (context, state) {
           switch (state.status) {
             case ItemStatus.initial:
               return const Center(
-                child: Text('get data'),
+                child: LottieLoader(
+                  image: 'assets/lottie/loading_1.json',
+                ),
               );
             case ItemStatus.success:
               final items = state.items;
@@ -91,7 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             case ItemStatus.failure:
               return const Center(
-                child: Text('failed to fetch posts'),
+                child: LottieLoader(
+                  image: 'assets/lottie/error.json',
+                ),
               );
           }
         },
