@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
 import 'package:apna_bill_book/presentation/widgets/favorite_card.dart';
@@ -63,7 +61,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 },
               );
             } else {
-              log(state.toString());
               return const Center(
                 child: LottieLoader(
                   image: 'assets/lottie/error.json',
