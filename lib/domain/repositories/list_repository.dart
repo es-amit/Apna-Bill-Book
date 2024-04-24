@@ -8,4 +8,6 @@ abstract interface class ListRepository {
   Future<Either<Failure, List<Item>>> fetchFavorites();
 
   Future<Either<Failure, Unit>> addToFavorites(Item item);
+
+  Future<Either<Failure, Unit>> removeFromFavorites(int itemKey);
 }

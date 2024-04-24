@@ -18,7 +18,9 @@ class FavoritedItemState extends FavoriteState {
   const FavoritedItemState();
 }
 
-class UnFavoritedItemState extends FavoriteState {}
+class UnFavoritedItemState extends FavoriteState {
+  const UnFavoritedItemState();
+}
 
 class FavoriteItemFetchState extends FavoriteState {
   final List<Item> items;

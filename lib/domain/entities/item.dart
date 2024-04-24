@@ -1,14 +1,14 @@
-import 'package:uuid/uuid.dart';
-
 class Item {
-  final String id;
+  final int id;
   final String name;
   final int price;
   final String category;
+  bool isFavorite = false;
 
   Item({
+    required this.id,
     required this.name,
     required this.price,
     required this.category,
-  }) : id = const Uuid().v4();
+  });
 }

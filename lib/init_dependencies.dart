@@ -5,6 +5,7 @@ import 'package:apna_bill_book/domain/repositories/list_repository.dart';
 import 'package:apna_bill_book/domain/usecases/add_to_favorite.dart';
 import 'package:apna_bill_book/domain/usecases/fetch_favorites.dart';
 import 'package:apna_bill_book/domain/usecases/get_all_items.dart';
+import 'package:apna_bill_book/domain/usecases/remove_favorite.dart';
 import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
 import 'package:apna_bill_book/presentation/bloc/item/item_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -49,6 +50,11 @@ void _initItem() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => RemoveFavorite(
+        serviceLocator(),
+      ),
+    )
     ..registerFactory<ItemsLocalDataSource>(
       () => ItemsLocalDataSourceImpl(
         serviceLocator(),
@@ -63,6 +69,7 @@ void _initItem() {
       () => FavoriteBloc(
         addFavorite: serviceLocator(),
         fetchFavorites: serviceLocator(),
+        removeFavorite: serviceLocator(),
       ),
     );
 }

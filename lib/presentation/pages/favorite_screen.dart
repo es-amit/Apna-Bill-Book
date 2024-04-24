@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
+import 'package:apna_bill_book/presentation/widgets/favorite_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +18,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   void initState() {
     super.initState();
     context.read<FavoriteBloc>().add(const FavoriteItemFetchEvent());
+  }
+
+  void _removeFavorite(int itemKey) {
+    context.read<FavoriteBloc>().add(RemoveFavoriteEvent(itemKey: itemKey));
   }
 
   @override
@@ -34,13 +42,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 itemCount: favorites.length,
                 itemBuilder: (context, index) {
                   final item = favorites[index];
-                  return ListTile(
-                    title: Text(item.name),
-                    subtitle: Text("${item.category} - ${item.price}"),
-                  );
+                  return FavoriteCard(
+                      item: item,
+                      color:
+                          index % 2 == 0 ? AppPallete.green : AppPallete.blue,
+                      onPressed: () {
+                        // delete item
+                        _removeFavorite(item.id);
+                      });
                 },
               );
             } else {
+              log(state.toString());
               return const Center(
                 child: Text('No Favorites'),
               );

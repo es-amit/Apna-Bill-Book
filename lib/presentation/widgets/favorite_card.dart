@@ -4,14 +4,12 @@ import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/domain/entities/item.dart';
 
 @immutable
-class ItemCard extends StatelessWidget {
-  final bool isFavorite;
+class FavoriteCard extends StatelessWidget {
   final Item item;
   final Color color;
   final VoidCallback onPressed;
-  const ItemCard({
+  const FavoriteCard({
     super.key,
-    required this.isFavorite,
     required this.item,
     required this.color,
     required this.onPressed,
@@ -34,13 +32,6 @@ class ItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               Row(
                 children: [
                   Chip(
@@ -68,13 +59,20 @@ class ItemCard extends StatelessWidget {
                   ),
                 ],
               ),
+              Text(
+                item.name,
+                style: const TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
           IconButton(
             onPressed: onPressed,
-            icon: Icon(
-              isFavorite ? Icons.star : Icons.star_border_outlined,
-              color: Colors.yellow,
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.redAccent,
               size: 40,
             ),
           ),

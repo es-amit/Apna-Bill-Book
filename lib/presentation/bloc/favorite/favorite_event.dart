@@ -13,10 +13,10 @@ class AddFavoriteEvent extends FavoriteEvent {
 }
 
 class RemoveFavoriteEvent extends FavoriteEvent {
-  final Item item;
+  final int itemKey;
 
   RemoveFavoriteEvent({
-    required this.item,
+    required this.itemKey,
   });
 }
 

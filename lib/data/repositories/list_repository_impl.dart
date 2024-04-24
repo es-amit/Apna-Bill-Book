@@ -51,4 +51,15 @@ class ListRepositoryImpl implements ListRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> removeFromFavorites(int itemKey) async {
+    try {
+      localDataSource.removeFromFavorites(itemId: itemKey);
+
+      return right(unit);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

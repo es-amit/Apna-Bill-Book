@@ -105,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? const BottomLoader()
                           : const SizedBox()
                       : ItemCard(
+                          isFavorite: items[index].isFavorite,
                           onPressed: () => _onFavorite(items[index]),
                           item: items[index],
                           color: index % 3 == 0
