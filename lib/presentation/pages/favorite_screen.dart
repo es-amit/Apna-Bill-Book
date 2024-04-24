@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:apna_bill_book/core/theme/app_pallete.dart';
 import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
 import 'package:apna_bill_book/presentation/widgets/favorite_card.dart';
+import 'package:apna_bill_book/presentation/widgets/lottie_loader.dart';
+import 'package:apna_bill_book/presentation/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +24,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void _removeFavorite(int itemKey) {
     context.read<FavoriteBloc>().add(RemoveFavoriteEvent(itemKey: itemKey));
+    showSnackBar(context, 'Item Removed from Favorites!!!');
   }
 
   @override
@@ -38,6 +41,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               );
             } else if (state is FavoriteItemFetchState) {
               final favorites = state.items;
+              if (favorites.isEmpty) {
+                return const Center(
+                  child: LottieLoader(
+                    image: 'assets/lottie/no_data.json',
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: favorites.length,
                 itemBuilder: (context, index) {
@@ -55,7 +65,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             } else {
               log(state.toString());
               return const Center(
-                child: Text('No Favorites'),
+                child: LottieLoader(
+                  image: 'assets/lottie/error.json',
+                ),
               );
             }
           },

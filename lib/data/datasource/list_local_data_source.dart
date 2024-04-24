@@ -8,7 +8,7 @@ abstract interface class ItemsLocalDataSource {
     required ItemModel item,
   });
 
-  void removeFromFavorites({
+  Future<List<ItemModel>> removeFromFavorites({
     required int itemId,
   });
 
@@ -57,12 +57,15 @@ class ItemsLocalDataSourceImpl implements ItemsLocalDataSource {
   }
 
   @override
-  Future<void> removeFromFavorites({required int itemId}) async {
+  Future<List<ItemModel>> removeFromFavorites({required int itemId}) async {
     try {
       box.delete(itemId.toString());
+      final result = await loadFavorites();
+      return result;
     } catch (e) {
       log('Error removing from favorites: $e');
       // Handle the error here, or rethrow if necessary
+      return [];
     }
   }
 }

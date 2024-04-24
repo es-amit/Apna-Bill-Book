@@ -8,6 +8,7 @@ import 'package:apna_bill_book/presentation/pages/favorite_screen.dart';
 import 'package:apna_bill_book/presentation/widgets/bottom_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/lottie_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/item_card.dart';
+import 'package:apna_bill_book/presentation/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<FavoriteBloc>().add(
           AddFavoriteEvent(item: item),
         );
+
+    showSnackBar(context, 'Item Favorited!!!');
   }
 
   @override
@@ -65,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
-        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {

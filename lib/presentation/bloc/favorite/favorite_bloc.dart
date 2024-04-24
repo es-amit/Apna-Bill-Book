@@ -67,7 +67,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       result.fold(
         (l) =>
             emit(const FavoriteError('Failed to remove item from favorites')),
-        (r) => emit(const UnFavoritedItemState()),
+        (r) => emit(FavoriteItemFetchState(items: r)),
       );
     } catch (e) {
       emit(const FavoriteError('Failed to remove item from favorites'));

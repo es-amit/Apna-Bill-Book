@@ -43,7 +43,6 @@ dependencies:
   lottie: ^3.1.0
   path_provider: ^2.1.0
   stream_transform: ^2.1.0
-  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -63,6 +62,7 @@ flutter:
     - assets/lottie/loading_1.json
     - assets/lottie/loading_2.json
     - assets/lottie/error.json
+    - assets/lottie/no_data.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

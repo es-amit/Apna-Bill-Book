@@ -53,11 +53,11 @@ class ListRepositoryImpl implements ListRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> removeFromFavorites(int itemKey) async {
+  Future<Either<Failure, List<Item>>> removeFromFavorites(int itemKey) async {
     try {
-      localDataSource.removeFromFavorites(itemId: itemKey);
+      final result = await localDataSource.removeFromFavorites(itemId: itemKey);
 
-      return right(unit);
+      return right(result);
     } catch (e) {
       return left(Failure(e.toString()));
     }

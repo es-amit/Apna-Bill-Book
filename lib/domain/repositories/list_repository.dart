@@ -9,5 +9,5 @@ abstract interface class ListRepository {
 
   Future<Either<Failure, Unit>> addToFavorites(Item item);
 
-  Future<Either<Failure, Unit>> removeFromFavorites(int itemKey);
+  Future<Either<Failure, List<Item>>> removeFromFavorites(int itemKey);
 }

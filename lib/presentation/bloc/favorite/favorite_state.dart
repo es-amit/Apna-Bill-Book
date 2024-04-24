@@ -25,7 +25,7 @@ class UnFavoritedItemState extends FavoriteState {
 class FavoriteItemFetchState extends FavoriteState {
   final List<Item> items;
 
-  FavoriteItemFetchState({
+  const FavoriteItemFetchState({
     required this.items,
   });
 }
