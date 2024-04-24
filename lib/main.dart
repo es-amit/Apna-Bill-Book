@@ -1,24 +1,25 @@
-import 'package:apna_bill_book/data/datasource/list_remote_data_source.dart';
-import 'package:apna_bill_book/data/repositories/list_repository_impl.dart';
-import 'package:apna_bill_book/domain/usecases/get_all_items.dart';
-import 'package:apna_bill_book/presentation/bloc/item_bloc.dart';
+import 'package:apna_bill_book/init_dependencies.dart';
+import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
+import 'package:apna_bill_book/presentation/bloc/item/item_bloc.dart';
 import 'package:apna_bill_book/presentation/pages/home_screen.dart';
 import 'package:apna_bill_book/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
   Bloc.observer = const SimpleBlocObserver();
   runApp(
-    BlocProvider(
-      create: (_) => ItemBloc(
-        getAllItems: GetAllItems(
-          ListRepositoryImpl(
-            ListRemoteDataSourceImpl(),
-          ),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<ItemBloc>(
+          create: (_) => serviceLocator<ItemBloc>(),
         ),
-      ),
+        BlocProvider<FavoriteBloc>(
+          create: (_) => serviceLocator<FavoriteBloc>(),
+        )
+      ],
       child: const MyApp(),
     ),
   );

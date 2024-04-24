@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fpdart/fpdart.dart';
 
 import 'package:apna_bill_book/core/error/failures.dart';
@@ -10,6 +8,8 @@ abstract interface class UseCase<SuccessType, Params> {
   Future<Either<Failure, SuccessType>> call(Params params);
 }
 
+class NoParams {}
+
 class GetAllItems implements UseCase<List<Item>, int> {
   final ListRepository listRepository;
 
@@ -17,7 +17,6 @@ class GetAllItems implements UseCase<List<Item>, int> {
 
   @override
   Future<Either<Failure, List<Item>>> call(int page) async {
-    log('getallitems usecase');
     return await listRepository.fetchItems(page);
   }
 }

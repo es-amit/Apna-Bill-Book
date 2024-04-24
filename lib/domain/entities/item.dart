@@ -1,13 +1,14 @@
+import 'package:uuid/uuid.dart';
+
 class Item {
-  final int id;
+  final String id;
   final String name;
   final int price;
   final String category;
 
-  const Item({
-    required this.id,
+  Item({
     required this.name,
     required this.price,
     required this.category,
-  });
+  }) : id = const Uuid().v4();
 }

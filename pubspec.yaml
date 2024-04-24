@@ -36,9 +36,14 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.5
   fpdart: ^1.1.0
+  get_it: ^7.7.0
+  hive: ^4.0.0-dev.2
   http: ^1.2.1
-  stream_transform: ^2.1.0
+  isar_flutter_libs: ^4.0.0-dev.13
   lottie: ^3.1.0
+  path_provider: ^2.1.0
+  stream_transform: ^2.1.0
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_lints: ^3.0.0

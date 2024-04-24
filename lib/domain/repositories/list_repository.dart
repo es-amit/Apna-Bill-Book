@@ -4,4 +4,8 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class ListRepository {
   Future<Either<Failure, List<Item>>> fetchItems(int page);
+
+  Future<Either<Failure, List<Item>>> fetchFavorites();
+
+  Future<Either<Failure, Unit>> addToFavorites(Item item);
 }

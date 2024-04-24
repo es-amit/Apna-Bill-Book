@@ -1,14 +1,18 @@
-import 'package:apna_bill_book/core/theme/app_pallete.dart';
-import 'package:apna_bill_book/domain/entities/item.dart';
 import 'package:flutter/material.dart';
 
+import 'package:apna_bill_book/core/theme/app_pallete.dart';
+import 'package:apna_bill_book/domain/entities/item.dart';
+
+@immutable
 class ItemCard extends StatelessWidget {
   final Item item;
   final Color color;
+  final VoidCallback onPressed;
   const ItemCard({
     super.key,
     required this.item,
     required this.color,
+    required this.onPressed,
   });
 
   @override
@@ -65,7 +69,7 @@ class ItemCard extends StatelessWidget {
             ],
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: onPressed,
             icon: const Icon(
               Icons.star,
               color: Colors.yellow,

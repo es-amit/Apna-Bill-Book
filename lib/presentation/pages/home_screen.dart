@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:apna_bill_book/core/theme/app_pallete.dart';
-import 'package:apna_bill_book/presentation/bloc/item_bloc.dart';
+import 'package:apna_bill_book/domain/entities/item.dart';
+import 'package:apna_bill_book/presentation/bloc/favorite/favorite_bloc.dart';
+import 'package:apna_bill_book/presentation/bloc/item/item_bloc.dart';
+import 'package:apna_bill_book/presentation/pages/favorite_screen.dart';
 import 'package:apna_bill_book/presentation/widgets/bottom_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/lottie_loader.dart';
 import 'package:apna_bill_book/presentation/widgets/item_card.dart';
@@ -29,10 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onScroll() {
     if (_isBottom && page <= 21) {
       log(page.toString());
-      context.read<ItemBloc>().add(ItemFetchEvent(page: ++page));
+      context.read<ItemBloc>().add(ItemFetchEvent(page: page));
     } else {
       page = 1;
     }
+  }
+
+  void _onFavorite(Item item) {
+    context.read<FavoriteBloc>().add(
+          AddFavoriteEvent(item: item),
+        );
   }
 
   @override
@@ -47,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
+    page++;
     return currentScroll >= (maxScroll * 0.9);
   }
 
@@ -58,7 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: ((context) => const FavoriteScreen())));
+            },
             icon: const Icon(Icons.star),
             color: Colors.yellowAccent,
             iconSize: 40.0,
@@ -92,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? const BottomLoader()
                           : const SizedBox()
                       : ItemCard(
+                          onPressed: () => _onFavorite(items[index]),
                           item: items[index],
                           color: index % 3 == 0
                               ? AppPallete.gradient1
